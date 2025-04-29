@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Chatbot</title>
+</head>
+<body>
+  <h2>Chatbot</h2>
+  <div id="chat"></div>
+  <input type="text" id="userInput" placeholder="Type your message..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    async function sendMessage() {
+      const userInput = document.getElementById('userInput').value;
+      const res = await fetch('https://your-backend-url.onrender.com/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userInput })
+      });
+      const data = await res.json();
+
+      const chatDiv = document.getElementById('chat');
+      chatDiv.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+      chatDiv.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+
+      document.getElementById('userInput').value = '';
+    }
+  </script>
+</body>
+</html>
